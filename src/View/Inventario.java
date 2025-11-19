@@ -30,49 +30,69 @@ public class Inventario extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jbtn_volver = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jbtn_agregarProducto = new javax.swing.JButton();
+        jbtn_eliminarProducto = new javax.swing.JButton();
+        jbtn_modificarProducto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jbtn_volver.setText("Volver");
         jbtn_volver.addActionListener(this::jbtn_volverActionPerformed);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jbtn_agregarProducto.setText("Agregar Producto");
+
+        jbtn_eliminarProducto.setText("Eliminar Producto");
+
+        jbtn_modificarProducto.setText("Modificar Producto");
+        jbtn_modificarProducto.addActionListener(this::jbtn_modificarProductoActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(690, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(142, 142, 142)
+                .addComponent(jbtn_agregarProducto)
+                .addGap(18, 18, 18)
+                .addComponent(jbtn_eliminarProducto)
+                .addGap(18, 18, 18)
+                .addComponent(jbtn_modificarProducto)
+                .addGap(18, 18, 18)
                 .addComponent(jbtn_volver)
-                .addGap(37, 37, 37))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(381, Short.MAX_VALUE)
-                .addComponent(jbtn_volver)
-                .addGap(26, 26, 26))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtn_agregarProducto)
+                    .addComponent(jbtn_eliminarProducto)
+                    .addComponent(jbtn_modificarProducto)
+                    .addComponent(jbtn_volver))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
-
-        jMenu3.setText("Modificar Inventario");
-
-        jMenuItem1.setText("Agregar Producto");
-        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
-        jMenu3.add(jMenuItem1);
-
-        jMenuItem4.setText("Eliminar Producto");
-        jMenu3.add(jMenuItem4);
-
-        jMenuItem2.setText("Modificar Producto");
-        jMenu3.add(jMenuItem2);
-
-        jMenuBar1.add(jMenu3);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,13 +112,13 @@ public class Inventario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void jbtn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_volverActionPerformed
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jbtn_volverActionPerformed
+
+    private void jbtn_modificarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_modificarProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtn_modificarProductoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,12 +146,12 @@ public class Inventario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbtn_agregarProducto;
+    private javax.swing.JButton jbtn_eliminarProducto;
+    private javax.swing.JButton jbtn_modificarProducto;
     private javax.swing.JButton jbtn_volver;
     // End of variables declaration//GEN-END:variables
 }
