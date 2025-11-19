@@ -34,6 +34,7 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jpmn_tipoPago = new javax.swing.JPopupMenu();
         jbtn_salir = new javax.swing.JButton();
         jbtn_generarBoleta = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -42,6 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jlbl_totalVenta = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -105,6 +107,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("Total de esta Venta: ");
         jLabel1.setToolTipText("");
 
+        jlbl_totalVenta.setText("$");
+
         jMenu1.setText("Opciones");
 
         jMenuItem2.setText("Total Ventas Hoy");
@@ -132,8 +136,10 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlbl_totalVenta)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
@@ -153,7 +159,9 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jlbl_totalVenta))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -173,7 +181,10 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtn_salirActionPerformed
 
     private void jbtn_generarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_generarBoletaActionPerformed
-        // TODO add your handling code here:
+        ConfirmarVenta confirmarVenta = new ConfirmarVenta();
+        
+        
+        confirmarVenta.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jbtn_generarBoletaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -232,6 +243,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton jbtn_generarBoleta;
     private javax.swing.JButton jbtn_salir;
+    private javax.swing.JLabel jlbl_totalVenta;
     private javax.swing.JMenuItem jmni_probarConexion;
+    private javax.swing.JPopupMenu jpmn_tipoPago;
     // End of variables declaration//GEN-END:variables
 }
