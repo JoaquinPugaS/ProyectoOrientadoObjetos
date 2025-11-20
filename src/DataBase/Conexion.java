@@ -14,17 +14,19 @@ import java.sql.SQLException;
  */
 public class Conexion {
     
-    public static Connection obtenerConexion (){
+    public Connection obtenerConexion (){
         
         Connection conexion = null;
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/libreria", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacen?useSSL=false&serverTimezone=UTC", "root", "");
             
             System.out.println("Conexion exitosa");
         } catch (ClassNotFoundException | SQLException e) {
+                   System.out.println("Conexion no realizada");
             System.out.println(e.getMessage());
+            
         }
         
         return conexion;

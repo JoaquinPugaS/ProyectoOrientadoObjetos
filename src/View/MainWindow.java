@@ -4,9 +4,14 @@
  */
 package View;
 
+import Controller.VentaService;
 import DataBase.Conexion;
+import Model.DTO.ProductoDTO;
+import Model.DTO.VentaDTO;
+import Model.DetalleVenta;
 import Model.Utils.ComunicacionInversa;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 
 /**
@@ -17,12 +22,14 @@ public class MainWindow extends javax.swing.JFrame {
     
     private Connection conn;
     
+    private final VentaService inventarioService;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainWindow.class.getName());
 
     /**
      * Creates new form MainWindow
      */
-    public MainWindow() {
+    public MainWindow(VentaService inventarioService) {
+        this.inventarioService = inventarioService;
         initComponents();
     }
 
@@ -184,7 +191,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void jbtn_generarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_generarBoletaActionPerformed
         ConfirmarVenta confirmarVenta = new ConfirmarVenta((int tpPago) -> {
             System.out.println("tpPago selected"+ tpPago);
+            
+            inventarioService.guardarVenta(new VentaDTO(new ArrayList<ProductoDTO>(),tpPago));
+
         });
+        
         confirmarVenta.setVisible(true);   
         
       
@@ -232,7 +243,7 @@ public class MainWindow extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new MainWindow(new VentaService()).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -252,4 +263,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmni_probarConexion;
     private javax.swing.JPopupMenu jpmn_tipoPago;
     // End of variables declaration//GEN-END:variables
+
+
 }
