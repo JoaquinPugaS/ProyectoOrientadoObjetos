@@ -5,6 +5,7 @@
 package View;
 
 import DataBase.Conexion;
+import Model.Utils.ComunicacionInversa;
 import java.sql.Connection;
 
 
@@ -181,10 +182,14 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtn_salirActionPerformed
 
     private void jbtn_generarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_generarBoletaActionPerformed
-        ConfirmarVenta confirmarVenta = new ConfirmarVenta();
+        ConfirmarVenta confirmarVenta = new ConfirmarVenta((int tpPago) -> {
+            System.out.println("tpPago selected"+ tpPago);
+        });
+        confirmarVenta.setVisible(true);   
         
+      
         
-        confirmarVenta.setVisible(true);        // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_jbtn_generarBoletaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
