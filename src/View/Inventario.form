@@ -113,11 +113,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Agregar Producto"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtn_agregarProductoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbtn_eliminarProducto">
           <Properties>
             <Property name="text" type="java.lang.String" value="Eliminar Producto"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtn_eliminarProductoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbtn_modificarProducto">
           <Properties>

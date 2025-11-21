@@ -4,6 +4,11 @@
  */
 package View;
 
+import Model.Producto;
+import Model.ProductoDAO;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Puga
@@ -17,6 +22,7 @@ public class Inventario extends javax.swing.JFrame {
      */
     public Inventario() {
         initComponents();
+        cargarTabla();
     }
 
     /**
@@ -55,8 +61,10 @@ public class Inventario extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jbtn_agregarProducto.setText("Agregar Producto");
+        jbtn_agregarProducto.addActionListener(this::jbtn_agregarProductoActionPerformed);
 
         jbtn_eliminarProducto.setText("Eliminar Producto");
+        jbtn_eliminarProducto.addActionListener(this::jbtn_eliminarProductoActionPerformed);
 
         jbtn_modificarProducto.setText("Modificar Producto");
         jbtn_modificarProducto.addActionListener(this::jbtn_modificarProductoActionPerformed);
@@ -118,32 +126,76 @@ public class Inventario extends javax.swing.JFrame {
 
     private void jbtn_modificarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_modificarProductoActionPerformed
         // TODO add your handling code here:
+        int fila = jTable1.getSelectedRow();
+
+        if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona un producto para modificar");
+        return;
+    }
+
+    
+        int id = (int) jTable1.getValueAt(fila, 0);
+
+
+        ModificarProducto ventana = new ModificarProducto(id);
+        ventana.setVisible(true);
+
+
+        this.dispose();
     }//GEN-LAST:event_jbtn_modificarProductoActionPerformed
 
+    private void jbtn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_agregarProductoActionPerformed
+        // TODO add your handling code here:
+        Agregar2 ventana = new Agregar2();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jbtn_agregarProductoActionPerformed
+
+    private void jbtn_eliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_eliminarProductoActionPerformed
+        // TODO add your handling code here:
+        Eliminar ventana = new Eliminar();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jbtn_eliminarProductoActionPerformed
+    public void cargarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0); // limpiar filas
+
+        ProductoDAO dao = new ProductoDAO();
+
+        for (Producto p : dao.listar()) {
+            modelo.addRow(new Object[]{
+                p.getIdProducto(),
+                p.getNombre(),
+                p.getMedida(),    // esto es tu “cantidad”
+                p.getPrecio()
+        });
+      }
+    }
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Inventario().setVisible(true));
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+//            logger.log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(() -> new Inventario().setVisible(true));
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

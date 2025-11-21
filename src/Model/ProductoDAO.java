@@ -83,57 +83,59 @@ public class ProductoDAO {
     }
     
     public Producto obtenerPorId(int id) {
-    try (Connection cnx = Conexion.obtenerConexion()) {
-        String sql = "SELECT * FROM producto WHERE idProducto = ?";
-        PreparedStatement ps = cnx.prepareStatement(sql);
-        ps.setInt(1, id);
+        try (Connection cnx = Conexion.obtenerConexion()) {
+            String sql = "SELECT * FROM producto WHERE idProducto = ?";
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
 
-        ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-            return new Producto(
-                rs.getInt("idProducto"),
-                rs.getString("nmProducto"),
-                rs.getDouble("precioProducto"),
-                rs.getInt("cdtpUnidadMedida"),
-                rs.getString("fcExpiracion"),
-                rs.getInt("cdtpMarca"),
-                rs.getDouble("medida"),
-                rs.getInt("cdtpClase")
-            );
-        }
+            if (rs.next()) {
+                return new Producto(
+                    rs.getInt("idProducto"),
+                    rs.getString("nmProducto"),
+                    rs.getDouble("precioProducto"),
+                    rs.getInt("cdtpUnidadMedida"),
+                    rs.getString("fcExpiracion"),
+                    rs.getInt("cdtpMarca"),
+                    rs.getDouble("medida"),
+                    rs.getInt("cdtpClase")
+                );
+            }
 
     } catch (Exception e) {
-        System.out.println("Error obtener producto: " + e.getMessage());
+        System.out.println("Error : " + e.getMessage());
     }
     return null;
 }
-public boolean actualizar(Producto p) {
-    try (Connection cnx = Conexion.obtenerConexion()) {
 
-        String sql = "UPDATE producto SET nmProducto=?, precioProducto=?, cdtpUnidadMedida=?, "
-                   + "fcExpiracion=?, cdtpMarca=?, medida=?, cdtpClase=? "
-                   + "WHERE idProducto=?";
+    public boolean actualizar(Producto p) {
+        try (Connection cnx = Conexion.obtenerConexion()) {
 
-        PreparedStatement stmt = cnx.prepareStatement(sql);
+            String sql = "UPDATE producto SET "
+                    + "nmProducto=?, precioProducto=?, cdtpUnidadMedida=?, fcExpiracion=?, "
+                    + "cdtpMarca=?, medida=?, cdtpClase=? "
+                    + "WHERE idProducto=?";
 
-        stmt.setString(1, p.getNombre());
-        stmt.setDouble(2, p.getPrecio());
-        stmt.setInt(3, p.getTipoProducto());
-        stmt.setString(4, p.getFechaExpiracion());
-        stmt.setInt(5, p.getMarca());
-        stmt.setDouble(6, p.getMedida());
-        stmt.setInt(7, p.getClase());
-        stmt.setInt(8, p.getIdProducto());
+            PreparedStatement stmt = cnx.prepareStatement(sql);
 
-        stmt.executeUpdate();
-        return true;
+            stmt.setString(1, p.getNombre());
+            stmt.setDouble(2, p.getPrecio());
+            stmt.setInt(3, p.getTipoProducto());
+            stmt.setString(4, p.getFechaExpiracion());
+            stmt.setInt(5, p.getMarca());
+            stmt.setDouble(6, p.getMedida());
+            stmt.setInt(7, p.getClase());
+            stmt.setInt(8, p.getIdProducto());
 
-    } catch (Exception e) {
-        System.out.println("Error actualizar producto: " + e.getMessage());
-        return false;
-    }
+            stmt.executeUpdate();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error actualizar: " + e.getMessage());
+            return false;
+        }
 }
+
 
 }
 
