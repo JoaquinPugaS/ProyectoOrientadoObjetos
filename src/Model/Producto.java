@@ -58,4 +58,10 @@ public class Producto {
     public void setMarca(int marca) { this.marca = marca; }
     public void setMedida(double medida) { this.medida = medida; }
     public void setClase(int clase) { this.clase = clase; }
+
+    @Override
+    public String toString() {
+        return "Producto{" + "idProducto=" + idProducto + ", nombre=" + nombre + ", precio=" + precio + ", tipoProducto=" + tipoProducto + ", fechaExpiracion=" + fechaExpiracion + ", marca=" + marca + ", medida=" + medida + ", clase=" + clase + '}';
+    }
+    
 }

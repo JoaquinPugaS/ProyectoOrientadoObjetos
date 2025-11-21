@@ -6,8 +6,10 @@ package View;
 
 import DataBase.Conexion;
 import Model.Producto;
-import Model.ProductoDAO;
+import Model.GestionInventarioDAO;
+import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,32 +40,33 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jpmn_tipoPago = new javax.swing.JPopupMenu();
-        jbtn_salir = new javax.swing.JButton();
-        jbtn_generarBoleta = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jlbl_totalVenta = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jbtn_generarBoleta = new javax.swing.JButton();
+        jbtn_salir = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jmni_probarConexion = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+
+        jMenu3.setText("File");
+        jMenuBar2.add(jMenu3);
+
+        jMenu4.setText("Edit");
+        jMenuBar2.add(jMenu4);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jbtn_salir.setText("Salir");
-        jbtn_salir.addActionListener(this::jbtn_salirActionPerformed);
-
-        jbtn_generarBoleta.setText("Procesar Venta");
-        jbtn_generarBoleta.addActionListener(this::jbtn_generarBoletaActionPerformed);
-
-        jButton1.setText("Eliminar Producto");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Carrito de compra"));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -94,9 +97,10 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,29 +110,70 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton2.setText("Agregar Producto");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-
         jLabel1.setText("Total de esta Venta: ");
         jLabel1.setToolTipText("");
 
         jlbl_totalVenta.setText("$");
 
-        jMenu1.setText("Opciones");
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
 
-        jMenuItem2.setText("Total Ventas Hoy");
-        jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
-        jMenu1.add(jMenuItem2);
+        jButton2.setText("Agregar Producto");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jMenuItem3.setText("Inventario");
-        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
-        jMenu1.add(jMenuItem3);
+        jButton1.setText("Eliminar Producto");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jmni_probarConexion.setText("Probar Conexion");
-        jmni_probarConexion.addActionListener(this::jmni_probarConexionActionPerformed);
-        jMenu1.add(jmni_probarConexion);
+        jbtn_generarBoleta.setText("Procesar Venta");
+        jbtn_generarBoleta.addActionListener(this::jbtn_generarBoletaActionPerformed);
 
+        jbtn_salir.setText("Salir");
+        jbtn_salir.addActionListener(this::jbtn_salirActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addGap(101, 101, 101)
+                .addComponent(jButton1)
+                .addGap(150, 150, 150)
+                .addComponent(jbtn_generarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1)
+                    .addComponent(jbtn_generarBoleta)
+                    .addComponent(jbtn_salir))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jMenu1.setText("Inventario");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu1);
+
+        jMenu5.setText("Test Conection");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu5);
+
+        jMenu7.setText("jMenu7");
+        jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
 
@@ -136,76 +181,73 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlbl_totalVenta))
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jbtn_generarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlbl_totalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 82, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jlbl_totalVenta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtn_generarBoleta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtn_salir)
-                .addGap(29, 29, 29))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jlbl_totalVenta))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_salirActionPerformed
-    System.exit(0);        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtn_salirActionPerformed
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
 
-    private void jbtn_generarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_generarBoletaActionPerformed
-        ConfirmarVenta confirmarVenta = new ConfirmarVenta();
-        
-        
-        confirmarVenta.setVisible(true);        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtn_generarBoletaActionPerformed
+        InventarioVista inv = new InventarioVista(new GestionInventarioDAO());
+        inv.setVisible(true);   
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        try {
+            try (Connection con = Conexion.obtenerConexion()) {
+                if (con.isValid(2)) {
+                    JOptionPane.showMessageDialog(this, "Conexion establecida :D !");
+                }
+            }
+        } catch (HeadlessException | SQLException e) {
+                 JOptionPane.showMessageDialog(this, "error en la conexion D: !");
+        }
+    }//GEN-LAST:event_jMenu5MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
     }//GEN-LAST:event_jButton2ActionPerformed
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Inventario inv = new Inventario();
-        inv.setVisible(rootPaneCheckingEnabled);        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jmni_probarConexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmni_probarConexionActionPerformed
-        
-     // TODO add your handling code here:
-    }//GEN-LAST:event_jmni_probarConexionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jbtn_generarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_generarBoletaActionPerformed
+        ConfirmarVenta confirmarVenta = new ConfirmarVenta();
+
+        confirmarVenta.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtn_generarBoletaActionPerformed
+
+    private void jbtn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_salirActionPerformed
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtn_salirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,16 +280,18 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton jbtn_generarBoleta;
     private javax.swing.JButton jbtn_salir;
     private javax.swing.JLabel jlbl_totalVenta;
-    private javax.swing.JMenuItem jmni_probarConexion;
-    private javax.swing.JPopupMenu jpmn_tipoPago;
     // End of variables declaration//GEN-END:variables
 }

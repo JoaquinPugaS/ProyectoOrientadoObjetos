@@ -5,7 +5,7 @@
 package View;
 
 import Model.Producto;
-import Model.ProductoDAO;
+import Model.GestionInventarioDAO;
 import javax.swing.JOptionPane;
 import java.util.logging.Logger; // Importar la clase Logger si se va a usar
 
@@ -13,15 +13,15 @@ import java.util.logging.Logger; // Importar la clase Logger si se va a usar
  *
  * @author Mati
  */
-public class Agregar2 extends javax.swing.JFrame {
+public class AgregarCarrito extends javax.swing.JFrame {
 
     // Se recomienda usar el logger si se comentó en el código anterior
-    private static final Logger logger = Logger.getLogger(Agregar2.class.getName());
+    private static final Logger logger = Logger.getLogger(AgregarCarrito.class.getName());
 
     /**
      * Creates new form Agregar2
      */
-    public Agregar2() {
+    public AgregarCarrito() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -52,33 +52,26 @@ public class Agregar2 extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Ingresar Producto");
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingresar Producto"));
         jPanel1.setForeground(new java.awt.Color(153, 153, 153));
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Nombre:");
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Precio:");
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Tipo de Producto:");
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Fecha de Expiracion:");
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Ingrese la marca:");
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Medida:");
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Clase:");
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
@@ -89,20 +82,6 @@ public class Agregar2 extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(0, 0, 0));
         jButton2.setText("VOLVER");
         jButton2.addActionListener(this::jButton2ActionPerformed);
-
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTextField4.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTextField5.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -140,7 +119,7 @@ public class Agregar2 extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 13, Short.MAX_VALUE))
+                        .addGap(0, 3, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -199,11 +178,6 @@ public class Agregar2 extends javax.swing.JFrame {
                         .addGap(22, 22, 22))))
         );
 
-        jMenu1.setText("Ingresar Producto");
-        jMenuBar1.add(jMenu1);
-
-        setJMenuBar(jMenuBar1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -212,7 +186,7 @@ public class Agregar2 extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -237,7 +211,7 @@ public class Agregar2 extends javax.swing.JFrame {
             int clase = Integer.parseInt(jTextField3.getText());
 
             Producto p = new Producto(nombre, precio, tipoProducto, fechaExp, marca, medida, clase);
-            ProductoDAO dao = new ProductoDAO();
+            GestionInventarioDAO dao = new GestionInventarioDAO();
 
             if (dao.agregar(p)) {
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente");
@@ -271,8 +245,6 @@ public class Agregar2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MainWindow ventana = new MainWindow();
-        ventana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -298,7 +270,7 @@ public class Agregar2 extends javax.swing.JFrame {
 //        //</editor-fold>
 
        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(() -> new Agregar2().setVisible(true));
+//        java.awt.EventQueue.invokeLater(() -> new AgregarCarrito().setVisible(true));
 //    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -311,8 +283,6 @@ public class Agregar2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;

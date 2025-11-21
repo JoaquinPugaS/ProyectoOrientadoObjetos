@@ -4,7 +4,7 @@
  */
 package View;
 
-import Model.ProductoDAO;
+import Model.GestionInventarioDAO;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,17 +37,14 @@ public class Eliminar extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 204, 51));
         jLabel1.setText("Ingrese el ID:");
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-
         jButton1.setBackground(new java.awt.Color(0, 204, 51));
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("ELIMINAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,7 +53,6 @@ public class Eliminar extends javax.swing.JFrame {
         });
 
         jButton2.setBackground(new java.awt.Color(0, 255, 0));
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("VOLVER");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,8 +107,7 @@ public class Eliminar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MainWindow ventana = new MainWindow();
-        ventana.setVisible(true);
+
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -120,7 +115,7 @@ public class Eliminar extends javax.swing.JFrame {
         try {
             int id = Integer.parseInt(jTextField1.getText());
 
-            ProductoDAO dao = new ProductoDAO();
+            GestionInventarioDAO dao = new GestionInventarioDAO();
 
             if (dao.eliminar(id)) {
                 JOptionPane.showMessageDialog(this, "Producto eliminado correctamente");

@@ -4,8 +4,10 @@
  */
 package View;
 
+import Model.GetInventario;
 import Model.Producto;
-import Model.ProductoDAO;
+import Model.GestionInventarioDAO;
+import Model.Inventario;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,14 +15,17 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Puga
  */
-public class Inventario extends javax.swing.JFrame {
+public class InventarioVista extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Inventario.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InventarioVista.class.getName());
+    
+    private final GestionInventarioDAO gestionInventarioDAO;
 
     /**
      * Creates new form Inventario
      */
-    public Inventario() {
+    public InventarioVista(GestionInventarioDAO gestionInventarioDAO) {
+        this.gestionInventarioDAO = gestionInventarioDAO;
         initComponents();
         cargarTabla();
     }
@@ -49,15 +54,30 @@ public class Inventario extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "idInventario", "Codigo Producto", "Nombre", "Medida", "Tipo Medida", "Precio", "cantidad", "Eliminado"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jbtn_agregarProducto.setText("Agregar Producto");
@@ -131,44 +151,66 @@ public class Inventario extends javax.swing.JFrame {
         if (fila == -1) {
         JOptionPane.showMessageDialog(this, "Selecciona un producto para modificar");
         return;
-    }
+        }
+        
+        int idInventario = (int) jTable1.getValueAt(fila,0);
 
-    
-        int id = (int) jTable1.getValueAt(fila, 0);
+        Inventario prodInventario = gestionInventarioDAO.buscarEnInventarioPorId(idInventario);
+        System.out.println(prodInventario.toString());
+        
+        Producto prod = gestionInventarioDAO.findProductoById(prodInventario.getIdProducto());
+        System.out.println(prod.toString());
+        
+        
+        ModificarProducto m = new ModificarProducto(prodInventario, prod);
+        m.setVisible(true);
 
-
-        ModificarProducto ventana = new ModificarProducto(id);
-        ventana.setVisible(true);
-
-
-        this.dispose();
+        
+        
     }//GEN-LAST:event_jbtn_modificarProductoActionPerformed
 
     private void jbtn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_agregarProductoActionPerformed
         // TODO add your handling code here:
-        Agregar2 ventana = new Agregar2();
+        AgregarCarrito ventana = new AgregarCarrito();
         ventana.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_jbtn_agregarProductoActionPerformed
 
     private void jbtn_eliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_eliminarProductoActionPerformed
         // TODO add your handling code here:
-        Eliminar ventana = new Eliminar();
-        ventana.setVisible(true);
-        this.dispose();
+        int fila = jTable1.getSelectedRow();
+        if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona un producto para modificar");
+        return;
+        }
+        
+        int idProducto = (int) jTable1.getValueAt(fila,1);
+        
+        gestionInventarioDAO.expirarProducto(idProducto);
+        
+        cargarTabla();
+        
     }//GEN-LAST:event_jbtn_eliminarProductoActionPerformed
     public void cargarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-        modelo.setRowCount(0); // limpiar filas
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(0).setWidth(0);
+        modelo.setRowCount(0);
 
-        ProductoDAO dao = new ProductoDAO();
+        GestionInventarioDAO dao = new GestionInventarioDAO();
 
-        for (Producto p : dao.listar()) {
+        for (GetInventario p : dao.listar()) {
             modelo.addRow(new Object[]{
+                p.getIdInventario(),
                 p.getIdProducto(),
-                p.getNombre(),
-                p.getMedida(),    // esto es tu “cantidad”
-                p.getPrecio()
+                p.getNmProducto(),
+                p.getMedida(),   
+                p.getNmMedida(),
+                p.getPrecioProducto(),
+                p.getStock(),
+                p.getLgEliminado()
+                
         });
       }
     }
@@ -194,7 +236,7 @@ public class Inventario extends javax.swing.JFrame {
 //        //</editor-fold>
 //
 //        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(() -> new Inventario().setVisible(true));
+//        java.awt.EventQueue.invokeLater(() -> new InventarioVista().setVisible(true));
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

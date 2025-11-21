@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 
 
 
-public class ProductoDAO {
+public class GestionInventarioDAO {
 
     public boolean agregar(Producto p) {
         try (Connection cnx = Conexion.obtenerConexion()) {
@@ -52,24 +52,38 @@ public class ProductoDAO {
             return false;
         }
     }
-    public List<Producto> listar() {
-        List<Producto> lista = new ArrayList<>();
+    public List<GetInventario> listar() {
+        List<GetInventario> lista = new ArrayList<>();
 
         try (Connection con = Conexion.obtenerConexion()) {
-            String sql = "SELECT * FROM producto";
+            String sql = """
+                         select 
+                         idinventario,i.idProducto,
+                         nmProducto,medida,u.nmunidadmedida,
+                         precioProducto,i.stock, CASE 
+                                 WHEN fcExpiracion IS NULL THEN 0 
+                                 ELSE 1 
+                             END AS eliminado
+                         
+                         from 
+                         producto p inner join 
+                         inventario i on i.idproducto = p.idproducto inner join 
+                         tpMedida u on u.cdtpunidadmedida = p.cdtpunidadmedida;
+                         
+                         """;
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Producto p = new Producto(
+                GetInventario p = new GetInventario(
+                    rs.getInt("idinventario"),
                     rs.getInt("idProducto"),
                     rs.getString("nmProducto"),
-                    rs.getDouble("precioProducto"),
-                    rs.getInt("cdtpUnidadMedida"),
-                    rs.getString("fcExpiracion"),
-                    rs.getInt("cdtpMarca"),
-                    rs.getDouble("medida"),
-                    rs.getInt("cdtpClase")
+                    rs.getInt("medida"),
+                    rs.getString("nmunidadmedida"),
+                    rs.getInt("precioProducto"),
+                    rs.getInt("stock"),
+                    rs.getBoolean("eliminado")
                 );
 
                 lista.add(p);
@@ -84,7 +98,7 @@ public class ProductoDAO {
     
     public Producto obtenerPorId(int id) {
         try (Connection cnx = Conexion.obtenerConexion()) {
-            String sql = "SELECT * FROM producto WHERE idProducto = ?";
+            String sql = "SELECT * FROM inventario WHERE idinventario = ?";
             PreparedStatement stmt = cnx.prepareStatement(sql);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -135,6 +149,82 @@ public class ProductoDAO {
             return false;
         }
 }
+
+    public Inventario buscarEnInventarioPorId(int idInventario) {
+        try(Connection con = Conexion.obtenerConexion()){
+            String query = "select * from inventario where idinventario = ?";
+            PreparedStatement stm = con.prepareStatement(query);
+            stm.setInt(1, idInventario);
+            
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()){
+                return new Inventario(
+                    rs.getInt("idinventario"),
+                    rs.getInt("idproducto"),
+                    rs.getInt("stockcritico"),
+                    rs.getInt("stock")
+            );
+            }
+            return null;
+            
+        }catch(Exception e){
+            return null;
+        }
+        
+    }
+
+    public Producto findProductoById(int idProducto) {
+        
+        System.out.println("idproducto" + idProducto);
+        
+        
+           try(Connection con = Conexion.obtenerConexion()){
+            String query = "select * from producto where idproducto = ?";
+            PreparedStatement stm = con.prepareStatement(query);
+            stm.setInt(1, idProducto);
+            
+            ResultSet rs = stm.executeQuery();
+               System.out.println("aaaaaaaaa");
+            System.out.println("valor de rsnext: " + rs.next());
+            
+          
+          
+
+            return new Producto(
+                rs.getInt("idProducto"),                         
+                rs.getString("nmProducto"),                      
+                rs.getDouble("precioProducto"),                  
+                rs.getInt("cdtpUnidadMedida"),                   
+                rs.getTimestamp("fcExpiracion") != null ? rs.getTimestamp("fcExpiracion").toString(): null,
+                rs.getInt("cdtpMarca"),                         
+                rs.getDouble("medida"),                          
+                rs.getInt("cdtpClase")
+            );                         
+
+        }catch(Exception e){
+               System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+
+    public void expirarProducto(int idProducto) {
+        
+           try(Connection con = Conexion.obtenerConexion()){
+            String query = "update producto set fcexpiracion= now() where idproducto = ?";
+            PreparedStatement stm = con.prepareStatement(query);
+            stm.setInt(1, idProducto);
+            
+            stm.executeUpdate();
+
+
+        }catch(Exception e){
+               System.out.println(e.getMessage());
+               
+        }
+        
+    }
 
 
 }
