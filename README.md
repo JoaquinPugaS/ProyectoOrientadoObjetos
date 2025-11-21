@@ -1,5 +1,7 @@
 ###### Sistema de Gestión para Almacén de Barrio - README ######
 
+¡¡¡ESTE PROYECTO SE DEBE EJECUTAR CON APACHE NETBEANS IDE 28, DE LO CONTRARIO TENDRA ERRORES!!!
+
 Sistema de Inventario y Ventas para un almacén de barrio. Permite
 gestionar productos, inventario, boletas y métodos de pago.
 
