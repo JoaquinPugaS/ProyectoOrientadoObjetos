@@ -4,6 +4,8 @@
  */
 package View;
 
+import View.Base.MainWindow;
+
 /**
  *
  * @author Mati

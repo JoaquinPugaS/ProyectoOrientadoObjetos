@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View;
+package View.gestion;
 
 import Model.GetInventario;
 import Model.Producto;
-import Model.GestionInventarioDAO;
+import Model.DAO.GestionInventarioDAO;
 import Model.Inventario;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +22,7 @@ public class InventarioVista extends javax.swing.JFrame {
     private final GestionInventarioDAO gestionInventarioDAO;
 
     /**
-     * Creates new form Inventario
+
      */
     public InventarioVista(GestionInventarioDAO gestionInventarioDAO) {
         this.gestionInventarioDAO = gestionInventarioDAO;
@@ -46,6 +46,9 @@ public class InventarioVista extends javax.swing.JFrame {
         jbtn_agregarProducto = new javax.swing.JButton();
         jbtn_eliminarProducto = new javax.swing.JButton();
         jbtn_modificarProducto = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jmni_nuevoMarca = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -119,8 +122,18 @@ public class InventarioVista extends javax.swing.JFrame {
                     .addComponent(jbtn_eliminarProducto)
                     .addComponent(jbtn_modificarProducto)
                     .addComponent(jbtn_volver))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        jMenu1.setText("Opciones");
+
+        jmni_nuevoMarca.setText("Agregar nueva marca");
+        jmni_nuevoMarca.addActionListener(this::jmni_nuevoMarcaActionPerformed);
+        jMenu1.add(jmni_nuevoMarca);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,7 +175,7 @@ public class InventarioVista extends javax.swing.JFrame {
         System.out.println(prod.toString());
         
         
-        ModificarProducto m = new ModificarProducto(prodInventario, prod);
+        ModificarProducto m = new ModificarProducto(prodInventario, prod,new GestionInventarioDAO());
         m.setVisible(true);
 
         
@@ -171,7 +184,7 @@ public class InventarioVista extends javax.swing.JFrame {
 
     private void jbtn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_agregarProductoActionPerformed
         // TODO add your handling code here:
-        AgregarCarrito ventana = new AgregarCarrito();
+        AgregarProducto ventana = new AgregarProducto();
         ventana.setVisible(true);
         
     }//GEN-LAST:event_jbtn_agregarProductoActionPerformed
@@ -186,11 +199,30 @@ public class InventarioVista extends javax.swing.JFrame {
         
         int idProducto = (int) jTable1.getValueAt(fila,1);
         
-        gestionInventarioDAO.expirarProducto(idProducto);
+        if ((boolean)jTable1.getValueAt(fila,7)){
+            
+            JOptionPane.showMessageDialog(this, "Este producto ya esta eliminado!");
+            return;
+        }
+        
+        boolean respuesta = gestionInventarioDAO.expirarProducto(idProducto);
+        
+        if (!respuesta){
+        JOptionPane.showMessageDialog(this,String.format("Error al eliminar", (String) jTable1.getValueAt(fila,2)));
+        return;
+        }
+        JOptionPane.showMessageDialog(this,String.format("Producto %s eliminado", (String) jTable1.getValueAt(fila,2)));
         
         cargarTabla();
+
         
     }//GEN-LAST:event_jbtn_eliminarProductoActionPerformed
+
+    private void jmni_nuevoMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmni_nuevoMarcaActionPerformed
+        AgregarMarca m = new AgregarMarca(new GestionInventarioDAO());
+        
+        m.setVisible(true);
+    }//GEN-LAST:event_jmni_nuevoMarcaActionPerformed
     public void cargarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
@@ -240,6 +272,8 @@ public class InventarioVista extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
@@ -247,5 +281,6 @@ public class InventarioVista extends javax.swing.JFrame {
     private javax.swing.JButton jbtn_eliminarProducto;
     private javax.swing.JButton jbtn_modificarProducto;
     private javax.swing.JButton jbtn_volver;
+    private javax.swing.JMenuItem jmni_nuevoMarca;
     // End of variables declaration//GEN-END:variables
 }

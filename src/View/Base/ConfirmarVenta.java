@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View;
+package View.Base;
+
+import Model.Utils.ComunicacionInversa;
 
 /**
  *
@@ -11,12 +13,14 @@ package View;
 public class ConfirmarVenta extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ConfirmarVenta.class.getName());
-
+    private final ComunicacionInversa listener;
+    private int tpPago;
     /**
      * Creates new form ConfirmarVenta
      */
-    public ConfirmarVenta() {
+    public ConfirmarVenta(ComunicacionInversa comunicacionInversa) {
         initComponents();
+        this.listener = comunicacionInversa;
     }
 
     /**
@@ -31,22 +35,26 @@ public class ConfirmarVenta extends javax.swing.JFrame {
         jbtng_MetodoPago = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jrbtn_credito = new javax.swing.JRadioButton();
-        jrbtn_efectivo = new javax.swing.JRadioButton();
         jrbtn_debito = new javax.swing.JRadioButton();
+        jbtn_efectivo = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbtn_guardarVenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleccione Tipo de Pago"));
 
+        jbtng_MetodoPago.add(jrbtn_credito);
         jrbtn_credito.setText("Credito");
         jrbtn_credito.addActionListener(this::jrbtn_creditoActionPerformed);
 
-        jrbtn_efectivo.setText("Debito");
-
-        jrbtn_debito.setText("Efectivo");
+        jbtng_MetodoPago.add(jrbtn_debito);
+        jrbtn_debito.setText("Debito");
         jrbtn_debito.addActionListener(this::jrbtn_debitoActionPerformed);
+
+        jbtng_MetodoPago.add(jbtn_efectivo);
+        jbtn_efectivo.setText("Efectivo");
+        jbtn_efectivo.addActionListener(this::jbtn_efectivoActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -56,9 +64,9 @@ public class ConfirmarVenta extends javax.swing.JFrame {
                 .addGap(110, 110, 110)
                 .addComponent(jrbtn_credito)
                 .addGap(28, 28, 28)
-                .addComponent(jrbtn_efectivo)
-                .addGap(37, 37, 37)
                 .addComponent(jrbtn_debito)
+                .addGap(37, 37, 37)
+                .addComponent(jbtn_efectivo)
                 .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -67,16 +75,16 @@ public class ConfirmarVenta extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbtn_credito)
-                    .addComponent(jrbtn_debito)
-                    .addComponent(jrbtn_efectivo))
+                    .addComponent(jbtn_efectivo)
+                    .addComponent(jrbtn_debito))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jButton1.setText("Cancelar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jButton2.setText("Guardar Venta");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        jbtn_guardarVenta.setText("Guardar Venta");
+        jbtn_guardarVenta.addActionListener(this::jbtn_guardarVentaActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,7 +95,7 @@ public class ConfirmarVenta extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(jbtn_guardarVenta)
                 .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
@@ -98,7 +106,7 @@ public class ConfirmarVenta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jbtn_guardarVenta))
                 .addGap(31, 31, 31))
         );
 
@@ -106,20 +114,25 @@ public class ConfirmarVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jrbtn_creditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbtn_creditoActionPerformed
-        // TODO add your handling code here:
+            tpPago = 1;
     }//GEN-LAST:event_jrbtn_creditoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jrbtn_debitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbtn_debitoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jrbtn_debitoActionPerformed
+    private void jbtn_efectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_efectivoActionPerformed
+        tpPago = 3;
+    }//GEN-LAST:event_jbtn_efectivoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbtn_guardarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_guardarVentaActionPerformed
+        listener.tpMetodoPago(tpPago);
         dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbtn_guardarVentaActionPerformed
+
+    private void jrbtn_debitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbtn_debitoActionPerformed
+tpPago = 2;        // TODO add your handling code here:
+    }//GEN-LAST:event_jrbtn_debitoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,11 +161,11 @@ public class ConfirmarVenta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jbtn_efectivo;
+    private javax.swing.JButton jbtn_guardarVenta;
     private javax.swing.ButtonGroup jbtng_MetodoPago;
     private javax.swing.JRadioButton jrbtn_credito;
     private javax.swing.JRadioButton jrbtn_debito;
-    private javax.swing.JRadioButton jrbtn_efectivo;
     // End of variables declaration//GEN-END:variables
 }

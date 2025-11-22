@@ -2,14 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View;
+package View.Base;
 
 import DataBase.Conexion;
 import Model.Producto;
-import Model.GestionInventarioDAO;
+import Model.DAO.GestionInventarioDAO;
+import Model.Utils.ComunicacionInversa;
+import View.gestion.InventarioVista;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -240,7 +243,14 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jbtn_generarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_generarBoletaActionPerformed
-        ConfirmarVenta confirmarVenta = new ConfirmarVenta();
+        ConfirmarVenta confirmarVenta = new ConfirmarVenta(new ComunicacionInversa() {
+            @Override
+            public void tpMetodoPago(int tpPago) {
+                            System.out.println("tpPago selected"+ tpPago);
+            
+//            inventarioService.guardarVenta(new VentaDTO(new ArrayList<>(),tpPago));
+            }
+        });
 
         confirmarVenta.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jbtn_generarBoletaActionPerformed

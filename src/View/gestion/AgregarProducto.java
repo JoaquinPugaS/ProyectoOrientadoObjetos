@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View;
+package View.gestion;
 
 import Model.Producto;
-import Model.GestionInventarioDAO;
+import Model.DAO.GestionInventarioDAO;
+import View.Base.MainWindow;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import java.util.logging.Logger; // Importar la clase Logger si se va a usar
 
@@ -13,15 +15,15 @@ import java.util.logging.Logger; // Importar la clase Logger si se va a usar
  *
  * @author Mati
  */
-public class AgregarCarrito extends javax.swing.JFrame {
+public class AgregarProducto extends javax.swing.JFrame {
 
     // Se recomienda usar el logger si se comentó en el código anterior
-    private static final Logger logger = Logger.getLogger(AgregarCarrito.class.getName());
+    private static final Logger logger = Logger.getLogger(AgregarProducto.class.getName());
 
     /**
      * Creates new form Agregar2
      */
-    public AgregarCarrito() {
+    public AgregarProducto() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -203,11 +205,11 @@ public class AgregarCarrito extends javax.swing.JFrame {
                 return;
             }
 
-            double precio = Double.parseDouble(jTextField7.getText());
+            int precio = Integer.parseInt(jTextField7.getText());
             int tipoProducto = Integer.parseInt(jTextField6.getText());
-            String fechaExp = jTextField5.getText();
+            LocalDateTime fechaExp = LocalDateTime.now();
             int marca = Integer.parseInt(jTextField4.getText());
-            double medida = Double.parseDouble(jTextField1.getText());
+            int medida = Integer.parseInt(jTextField1.getText());
             int clase = Integer.parseInt(jTextField3.getText());
 
             Producto p = new Producto(nombre, precio, tipoProducto, fechaExp, marca, medida, clase);
@@ -270,7 +272,7 @@ public class AgregarCarrito extends javax.swing.JFrame {
 //        //</editor-fold>
 
        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(() -> new AgregarCarrito().setVisible(true));
+//        java.awt.EventQueue.invokeLater(() -> new AgregarProducto().setVisible(true));
 //    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
