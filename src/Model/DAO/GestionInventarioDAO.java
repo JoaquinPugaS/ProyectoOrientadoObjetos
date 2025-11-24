@@ -18,24 +18,46 @@ import java.sql.*;
 
 public class GestionInventarioDAO {
 
-    public boolean agregar(Producto p) {
+    public boolean agregar(Producto p,Inventario inv) {
         try (Connection cnx = Conexion.obtenerConexion()) {
 
             String sql = "INSERT INTO producto "
-                       + "(nmProducto, precioProducto, cdtpUnidadMedida, fcExpiracion, cdtpMarca, medida, cdtpClase) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                       + "(nmProducto, precioProducto, cdtpUnidadMedida, fcExpiracion, cdtpMarca, medida, cdtpClase,fcingreso) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?,now())";
 
-            PreparedStatement stmt = cnx.prepareStatement(sql);
+            PreparedStatement stmt = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            stmt.setString(1, p.getNombre());              // nmProducto
-            stmt.setDouble(2, p.getPrecio());              // precioProducto
-            stmt.setInt(3, p.getTipoProducto());           // cdtpUnidadMedida
-            stmt.setTimestamp(4,Timestamp.valueOf(p.getFechaExpiracion()));     // fcExpiracion
-            stmt.setInt(5, p.getMarca());                  // cdtpMarca
-            stmt.setDouble(6, p.getMedida());              // medida
-            stmt.setInt(7, p.getClase());                  // cdtpClase
+            stmt.setString(1, p.getNombre());             
+            stmt.setDouble(2, p.getPrecio());              
+            stmt.setInt(3, p.getTipoProducto());           
+            stmt.setTimestamp(4,p.getFechaExpiracion() == null ? null :Timestamp.valueOf(p.getFechaExpiracion()));     
+            stmt.setInt(5, p.getMarca());                 
+            stmt.setDouble(6, p.getMedida());              
+            stmt.setInt(7, p.getClase());                 
 
             stmt.executeUpdate();
+            ResultSet  rs = stmt.getGeneratedKeys();
+            
+            if(!rs.next()){
+                throw new SQLException("error al insertar");
+            }
+            
+            
+            
+            String query = """
+                           insert into inventario 
+                           (idproducto, stockcritico,stock)
+                           values (?,?,?)
+                           """;
+            
+            PreparedStatement stm = cnx.prepareStatement(query);
+            
+            stm.setInt(1, rs.getInt(1));
+            stm.setInt(2,inv.getStock());
+            stm.setInt(3,inv.getStockCritico());
+            
+            stm.executeUpdate();
+            
             return true;
 
         } catch (Exception e) {
@@ -59,6 +81,49 @@ public class GestionInventarioDAO {
                          from 
                          producto p inner join 
                          inventario i on i.idproducto = p.idproducto inner join 
+                         tpMedida u on u.cdtpunidadmedida = p.cdtpunidadmedida;
+                         
+                         """;
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                GetInventario p = new GetInventario(
+                    rs.getInt("idinventario"),
+                    rs.getInt("idProducto"),
+                    rs.getString("nmProducto"),
+                    rs.getInt("medida"),
+                    rs.getString("nmunidadmedida"),
+                    rs.getInt("precioProducto"),
+                    rs.getInt("stock"),
+                    rs.getBoolean("eliminado")
+                );
+
+                lista.add(p);
+}
+
+
+        } catch (Exception e) {
+            System.out.println("Error listar productos: " + e.getMessage());
+        }
+        return lista;
+    }
+        public List<GetInventario> listarParaCompra() {
+        List<GetInventario> lista = new ArrayList<>();
+
+        try (Connection con = Conexion.obtenerConexion()) {
+            String sql = """
+                         select 
+                         idinventario,i.idProducto,
+                         nmProducto,medida,u.nmunidadmedida,
+                         precioProducto,i.stock, CASE 
+                                 WHEN fcExpiracion IS NULL THEN 0 
+                                 ELSE 1 
+                             END AS eliminado
+                         
+                         from 
+                         producto p inner join 
+                         inventario i on i.idproducto = p.idproducto and p.fcexpiracion is not null inner join 
                          tpMedida u on u.cdtpunidadmedida = p.cdtpunidadmedida;
                          
                          """;
@@ -113,7 +178,7 @@ public class GestionInventarioDAO {
     return null;
 }
 
-    public boolean actualizar(Producto p) {
+    public boolean actualizar(Producto p, Inventario inv) {
         try (Connection cnx = Conexion.obtenerConexion()) {
 
             String sql = "UPDATE producto SET "
@@ -133,6 +198,20 @@ public class GestionInventarioDAO {
             stmt.setInt(8, p.getIdProducto());
 
             stmt.executeUpdate();
+            
+            String query = """
+                           update inventario
+                           set stock = ?
+                           where idInventario = ?
+                           """;
+            
+            PreparedStatement stm = cnx.prepareStatement(query);
+            stm.setInt(1,inv.getStock());
+            stm.setInt(2, inv.getIdInventario());
+            
+            stm.executeUpdate();
+            
+            
             return true;
 
         } catch (Exception e) {

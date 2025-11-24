@@ -11,6 +11,7 @@ import Model.Inventario;
 import Model.TpClase;
 import Model.TpMarca;
 import Model.TpMedida;
+import Model.Utils.ActualizarTabla;
 import java.awt.PopupMenu;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,12 +31,14 @@ public class ModificarProducto extends javax.swing.JFrame {
     
     private Producto prod;
     private Inventario inv;
+    
+    private ActualizarTabla listener;
 
     /**
      * Creates new form ModificarProducto
      */
 
-    public ModificarProducto(Inventario inv, Producto prod,GestionInventarioDAO gestionInventarioDAO) {
+    public ModificarProducto(Inventario inv, Producto prod,GestionInventarioDAO gestionInventarioDAO,ActualizarTabla listener) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.gestionInventarioDAO = gestionInventarioDAO;
@@ -43,6 +46,8 @@ public class ModificarProducto extends javax.swing.JFrame {
         cargarDatos(inv, prod);
         this.inv = inv;
         this.prod = prod;
+        
+        this.listener = listener;
 
     }
 
@@ -269,18 +274,20 @@ public class ModificarProducto extends javax.swing.JFrame {
             TpMarca marca = (TpMarca) jcmb_marca.getSelectedItem();
             EliminadoClass eliminado = (EliminadoClass) jcmb_eliminado.getSelectedItem();
             
-Producto p = new Producto(
-        this.prod.getIdProducto(),                         
-        txtNombre.getText(),                             
-        Integer.parseInt(txtPrecio.getText()),            
-        medida.getCdTpUnidadMedida(),                      
-        eliminado.isValor() ? LocalDateTime.now() : null,  
-        marca.getCdTpMarca(),                             
-        Integer.parseInt(txtMedida.getText()),            
-        clase.getCdTpClase()                               
-);
+            Producto p = new Producto(
+                    this.prod.getIdProducto(),                         
+                    txtNombre.getText().isBlank()? prod.getNombre():txtNombre.getText(),                             
+                    Integer.parseInt(txtPrecio.getText()),            
+                    medida.getCdTpUnidadMedida(),                      
+                    eliminado.isValor() ? LocalDateTime.now() : null,  
+                    marca.getCdTpMarca(),                             
+                    Integer.parseInt(txtMedida.getText()),            
+                    clase.getCdTpClase()                               
+            );
+            
+            this.inv.setStock(Integer.parseInt(jtxt_cantidad.getText()));
 
-            if (gestionInventarioDAO.actualizar(p)) {
+            if (gestionInventarioDAO.actualizar(p,this.inv)) {
                 JOptionPane.showMessageDialog(this, "Producto actualizado con éxito");
                 this.dispose();
 
@@ -288,6 +295,7 @@ Producto p = new Producto(
                 JOptionPane.showMessageDialog(this, "Error al actualizar");
             }
             
+            this.listener.reloadTabla(1);
             
 
         } catch (Exception e) {

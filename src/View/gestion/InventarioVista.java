@@ -8,6 +8,7 @@ import Model.GetInventario;
 import Model.Producto;
 import Model.DAO.GestionInventarioDAO;
 import Model.Inventario;
+import Model.Utils.ActualizarTabla;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -175,7 +176,13 @@ public class InventarioVista extends javax.swing.JFrame {
         System.out.println(prod.toString());
         
         
-        ModificarProducto m = new ModificarProducto(prodInventario, prod,new GestionInventarioDAO());
+        ModificarProducto m = new ModificarProducto(prodInventario, prod,new GestionInventarioDAO(),new ActualizarTabla() {
+            @Override
+            public void reloadTabla(int signal) {
+               cargarTabla();
+            }
+        });
+       
         m.setVisible(true);
 
         
@@ -184,7 +191,12 @@ public class InventarioVista extends javax.swing.JFrame {
 
     private void jbtn_agregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_agregarProductoActionPerformed
         // TODO add your handling code here:
-        AgregarProducto ventana = new AgregarProducto();
+        AgregarProducto ventana = new AgregarProducto(new GestionInventarioDAO(),new ActualizarTabla() {
+            @Override
+            public void reloadTabla(int signal) {
+                cargarTabla();
+            }
+        });
         ventana.setVisible(true);
         
     }//GEN-LAST:event_jbtn_agregarProductoActionPerformed
